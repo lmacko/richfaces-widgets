@@ -176,9 +176,7 @@
     //Default options charts with a date data type on xaxis
     dateDefaults: {
       xaxis: {
-        mode: 'time',
-        timeformat: '%Y/%m/%d',
-        minTickSize: [1, 'day']  //TODO
+        mode: 'time'
       }
     },
 
@@ -361,7 +359,7 @@
           this.options.selection = {mode: 'xy'};
         }
         if (this.options.xtype === 'date') {
-          this.options = $.extend(this.options, this.dateDefaults);
+          this.options = $.extend(true,this.options, this.dateDefaults);
           if (this.options.xaxis.format) {
             this.options.xaxis.timeformat = this.options.xaxis.format;
           }
