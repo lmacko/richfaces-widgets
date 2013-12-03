@@ -176,9 +176,7 @@
     //Default options charts with a date data type on xaxis
     dateDefaults: {
       xaxis: {
-        mode: 'time',
-        timeformat: '%Y/%m/%d',
-        minTickSize: [1, 'day']  //TODO
+        mode: 'time'
       }
     },
 
@@ -361,7 +359,7 @@
           this.options.selection = {mode: 'xy'};
         }
         if (this.options.xtype === 'date') {
-          this.options = $.extend(this.options, this.dateDefaults);
+          this.options = $.extend(true,this.options, this.dateDefaults);
           if (this.options.xaxis.format) {
             this.options.xaxis.timeformat = this.options.xaxis.format;
           }
@@ -373,12 +371,14 @@
     // Use the _setOption method to respond to changes to options
     _setOption: function (key, value) {
       // In jQuery UI 1.9 and above, you use the _super method instead
-      this._super('_setOption', key, value);
+      this._super(key, value);
 
       var redraw = true; //variable decides whether redraw of the chart is required
 
       //the change of a handler does not require chart to be redrawn
       switch (key) {
+        case 'xaxis':
+        case 'yaxis':
         case 'zoom':
           this._unbind();
           this._registerListeners();
@@ -425,7 +425,7 @@
 
         // do the zooming
 
-        widget._draw($.extend({}, widget.options, {
+        widget._draw($.extend(true,{}, widget.options, {
           xaxis: { min: ranges.xaxis.from, max: ranges.xaxis.to },
           yaxis: { min: ranges.yaxis.from, max: ranges.yaxis.to }
         })
